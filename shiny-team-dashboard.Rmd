@@ -7,6 +7,8 @@ output:
     theme: paper
     source_code: "https://github.com/schloerke/shinyteamdashboard"
 params:
+    # - rstudio/d3heatmap
+    # - rstudio/yamlthis
   start:
     label: Start date of report
     value: !r lubridate::today() - lubridate::ddays(60)
@@ -23,16 +25,19 @@ params:
   repos:
     # - rstudio/pullthat
     # - rstudio/htmldeps
+    - rstudio/DT
+    - ramnathv/htmlwidgets
     - r-lib/fastmap
     - r-lib/later
     - ropensci/plotly
-    - rstudio-education/gradethis
-    - rstudio-education/ymlthis
-    - rstudio/bootstraplib
+    - rstudio/gradethis
+    - r-lib/ymlthis
+    - rstudio/bslib
+    - r-lib/cachem
     - rstudio/chromote
     - rstudio/crosstalk
-    - rstudio/d3heatmap
     - rstudio/flexdashboard
+    - rstudio/gridlayout
     - rstudio/gt
     - rstudio/htmltools
     - rstudio/httpuv
@@ -44,12 +49,15 @@ params:
     - rstudio/pool
     - rstudio/profvis
     - rstudio/promises
+    - rstudio/r2d3
     - rstudio/reactlog
+    - rstudio/remarker
     - rstudio/rmarkdown
     - rstudio/sass
     - rstudio/shiny
     - rstudio/shiny-server
     - rstudio/shiny-examples
+    - rstudio/shinybootstrap2
     - rstudio/shinycannon
     - rstudio/shinycoreci-apps
     - rstudio/shinycoreci
@@ -63,7 +71,8 @@ params:
     - rstudio/swagger
     - rstudio/thematic
     - rstudio/websocket
-    # - rstudio/yamlthis
+    - rstudio/webdriver
+    - schloerke/shinyjster
 editor_options:
   chunk_output_type: console
 ---
@@ -119,7 +128,7 @@ if (!is.null(pr_data)) {
     # filter(updated >= start) %>%
     mutate(reviewer = map2(reviews, comments, function(reviews, comments) unique(c(reviews$reviewer, comments$commenter)))) %>%
     select(owner, repo, issue, author, created, updated, reviewer) %>%
-    unnest() %>%
+    unnest(cols = reviewer) %>%
     # filter(reviewer != author) %>%
     mutate(
       reviewer = github_user_home(reviewer),
@@ -354,8 +363,9 @@ Open issues
 ```{r issue_summary}
 substitute_emoji <- function(x) {
   m <- gregexpr(":[^[:space:]]+:", x)
-
-  regmatches(x, m) <- lapply(regmatches(x, m), function(xx) map_chr(gsub(":", "", xx), emo::ji))
+  try({
+    regmatches(x, m) <- lapply(regmatches(x, m), function(xx) map_chr(gsub(":", "", xx), emo::ji))
+  })
   x
 }
 
