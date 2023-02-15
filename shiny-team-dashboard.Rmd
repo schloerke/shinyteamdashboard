@@ -29,7 +29,7 @@ params:
     - ramnathv/htmlwidgets
     - r-lib/fastmap
     - r-lib/later
-    - ropensci/plotly
+    - plotly/plotly.R
     - rstudio/gradethis
     - r-lib/ymlthis
     - rstudio/bslib
@@ -37,6 +37,7 @@ params:
     - rstudio/chromote
     - rstudio/crosstalk
     - rstudio/flexdashboard
+    - rstudio/fontawesome
     - rstudio/gridlayout
     - rstudio/gt
     - rstudio/htmltools
@@ -59,19 +60,21 @@ params:
     - rstudio/shiny-examples
     - rstudio/shinybootstrap2
     - rstudio/shinycannon
-    - rstudio/shinycoreci-apps
     - rstudio/shinycoreci
     - rstudio/shinydashboard
     - rstudio/shinyloadtest
     - rstudio/shinymeta
     - rstudio/shinytest
+    - rstudio/shinytest2
     - rstudio/shinythemes
     - rstudio/shinyvalidate
     - rstudio/sortable
     - rstudio/swagger
     - rstudio/thematic
-    - rstudio/websocket
     - rstudio/webdriver
+    - rstudio/websocket
+    - wch/webshot
+    - rstudio/webshot2
     - schloerke/shinyjster
 editor_options:
   chunk_output_type: console
@@ -179,7 +182,7 @@ issue_data2 <- issue_data %>%
   )
 ```
 
-````{r}
+```{r}
 totals <- issue_data2 %>%
   filter(status != "old") %>%
   group_by(type, status) %>%
