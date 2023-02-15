@@ -66,7 +66,7 @@ remove_aliases <- function(x, y) {
 #' @rdname desc
 #' @export
 desc_maintainer <- function(description) {
-  res <- map_chr(description, 
+  res <- map_chr(description,
     possibly(function(.x) { .x$get_maintainer() %|||% NA_character_}, otherwise = NA_character_))
 
   remove_aliases(res, email_aliases)
@@ -78,13 +78,13 @@ desc_maintainer <- function(description) {
 #' @name status_badge
 #' @export
 travis_status_badge <- function(owner, package) {
-  glue::glue('<a rel="noopener" target="_blank" href="https://travis-ci.org/{owner}/{package}"><img src="https://travis-ci.org/{owner}/{package}.svg?branch=master"></a>')
+  glue::glue('<a rel="noopener" target="_blank" href="https://travis-ci.org/{owner}/{package}"><img src="https://travis-ci.org/{owner}/{package}.svg"></a>')
 }
 
 #' @rdname status_badge
 #' @export
 appveyor_status_badge <- function(owner, package) {
-  glue::glue('<a rel="noopener" target="_blank" href="https://ci.appveyor.com/api/projects/status/github/{owner}/{package}"><img src="https://ci.appveyor.com/api/projects/status/github/{owner}/{package}?svg=true&branch=master"></a>')
+  glue::glue('<a rel="noopener" target="_blank" href="https://ci.appveyor.com/api/projects/status/github/{owner}/{package}"><img src="https://ci.appveyor.com/api/projects/status/github/{owner}/{package}?svg=true"></a>')
 }
 
 #' @rdname status_badge
