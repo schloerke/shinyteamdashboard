@@ -4,14 +4,22 @@
 \alias{data_table}
 \title{A wrapper around [DT::datatable] to change some defaults}
 \usage{
-data_table(data, options = list(), ..., filter = "top", style = "default",
-  autoHideNavigation = TRUE, rownames = FALSE, escape = FALSE)
+data_table(
+  data,
+  options = list(),
+  ...,
+  filter = "top",
+  style = "default",
+  autoHideNavigation = TRUE,
+  rownames = FALSE,
+  escape = FALSE
+)
 }
 \arguments{
 \item{data}{a data object (either a matrix or a data frame)}
 
 \item{options}{a list of initialization options (see
-\url{http://datatables.net/reference/option/}); the character options
+\url{https://datatables.net/reference/option/}); the character options
 wrapped in \code{\link[htmlwidgets]{JS}()} will be treated as literal
 JavaScript code instead of normal character strings; you can also set
 options globally via \code{\link{options}(DT.options = list(...))}, and
@@ -21,17 +29,25 @@ global options will be merged into this \code{options} argument if set}
 \code{bottom/top}: put column filters at the bottom/top of the table; range
 sliders are used to filter numeric/date/time columns, select lists are used
 for factor columns, and text input boxes are used for character columns; if
-you want more control over the styles of filters, you can provide a list to
-this argument of the form \code{list(position = 'top', clear = TRUE, plain
-= FALSE)}, where \code{clear} indicates whether you want the clear buttons
-in the input boxes, and \code{plain} means if you want to use Bootstrap
-form styles or plain text input styles for the text input boxes}
+you want more control over the styles of filters, you can provide a named
+list to this argument; see Details for more}
 
-\item{style}{the style name (\url{http://datatables.net/manual/styling/});
-currently only \code{'default'} and \code{'bootstrap'} are supported}
+\item{style}{either \code{'auto'}, \code{'default'}, \code{'bootstrap'}, or
+\code{'bootstrap4'}. If \code{'auto'}, and a **bslib** theme is
+currently active, then bootstrap styling is used in a way that "just works"
+for the active theme. Otherwise,
+\href{https://datatables.net/manual/styling/classes}{DataTables
+\code{'default'} styling} is used. If set explicitly to \code{'bootstrap'}
+or \code{'bootstrap4'}, one must take care to ensure Bootstrap's HTML
+dependencies (as well as Bootswatch themes, if desired) are included on the
+page. Note, when set explicitly, it's the user's responsibility to ensure
+that only one unique `style` value is used on the same page, if multiple
+DT tables exist, as different styling resources may conflict with each other.}
 
 \item{autoHideNavigation}{\code{TRUE} to automatically hide navigational UI
-when the number of total records is less than the page size.}
+(only display the table body) when the number of total records is less
+than the page size. Note, it only works on the client-side processing mode
+and the `pageLength` option should be provided explicitly.}
 
 \item{rownames}{\code{TRUE} (show row names) or \code{FALSE} (hide row names)
 or a character vector of row names; by default, the row names are displayed
@@ -42,7 +58,9 @@ to escape the whole table, and \code{FALSE} means not to escape it;
 alternatively, you can specify numeric column indices or column names to
 indicate which columns to escape, e.g. \code{1:5} (the first 5 columns),
 \code{c(1, 3, 4)}, or \code{c(-1, -3)} (all columns except the first and
-third), or \code{c('Species', 'Sepal.Length')}}
+third), or \code{c('Species', 'Sepal.Length')}; since the row names take
+the first column to display, you should add the numeric column indices by
+one when using \code{rownames}}
 }
 \description{
 A wrapper around [DT::datatable] to change some defaults
