@@ -22,7 +22,7 @@ data_table <- function(data, options = list(), ..., filter = "top", style = "def
   if ("owner" %in% colnames(data)) {
     data$owner <- glue::glue_data(data, '<a rel="noopener" target="_blank" href="https://github.com/{owner}">{owner}</a>')
   }
-  default_opts <- list(pageLength = 25,
+  default_opts <- list(pageLength = 1000,
     dom = "tip",
     columnDefs = list(
       list(targets = "_all", orderSequence = c("desc", "asc"))))
